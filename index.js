@@ -1,13 +1,15 @@
 const path = require('path')
 const async = require('async')
 const newman = require('newman')
+const beautify = require("json-beautify")
 
 const PARALLEL_RUN_COUNT = 2
 
 const parametersForTestRun = {
     collection: path.join(__dirname, 'postman/Sequence Funding Accept - Test.postman_collection.json'), // your collection
     environment: path.join(__dirname, 'postman/Wallex Burhan - Local.postman_environment.json'), //your env
-    reporters: 'cli'
+    reporters: 'json', // cli, json, junit, progress and emojitrain
+    color: 'off'
 };
 
 parallelCollectionRun = function (done) {
@@ -40,8 +42,10 @@ async.parallel(
                 // console.log(execution.request);
                 console.log(`${execution.request.url.protocol}://${execution.request.url.host.join('.')}:${execution.request.url.port}/${execution.request.url.path.join('/')}`);
                 console.log('>>> response: ');
-                console.log(execution.response.stream.toString());
-
+                // console.log(execution.response.stream.toString());
+                let result =  JSON.parse(execution.response.stream.toString());
+                // console.log('result: ', result);
+                console.log(beautify(result, null, 2, 100));
             });
 
 
