@@ -9,10 +9,10 @@ const parametersForTestRun = {
     collection: path.join(__dirname, 'postman/Sequence Funding Accept - Test.postman_collection.json'), // your collection
     environment: path.join(__dirname, 'postman/Wallex Burhan - Local.postman_environment.json'), //your env
     reporters: 'json', // cli, json, junit, progress and emojitrain
-    color: 'off'
+    color: 'off' // on, off and auto
 };
 
-parallelCollectionRun = function (done) {
+parallelCollectionRun = (done) => {
     newman.run(parametersForTestRun, done);
 };
 
@@ -29,10 +29,9 @@ async.parallel(
 
         // console.log('>>>>> result: ', results);
 
-        results.forEach(function (result) {
+        results.forEach((result) => {
 
             // console.log('>>>> result e: ', result.run.executions);
-
 
             result.run.executions.forEach(execution => {
 
@@ -48,8 +47,7 @@ async.parallel(
                 console.log(beautify(result, null, 2, 100));
             });
 
-
-            var failures = result.run.failures;
+            let failures = result.run.failures;
             console.info(failures.length ? JSON.stringify(failures.failures, null, 2) :
                 `${result.collection.name} ran successfully.`);
         });
