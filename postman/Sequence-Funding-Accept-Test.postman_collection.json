@@ -1,0 +1,1727 @@
+{
+	"info": {
+		"_postman_id": "69170568-416e-4bc5-b6f5-855b9aec5fe5",
+		"name": "Sequence Funding Accept - Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Funding Accept 1 - Funding >",
+			"item": [
+				{
+					"name": "-- Login: wallex.test+a1@outlook.com",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16943b8b-20e5-4080-abbc-32937e294fc7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"wallex.test+a1@outlook.com\",\r\n  \"password\": \"Wallex$2019\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/users/login",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Rates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90cb4699-97a6-42c0-99b6-46bede08afe8",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"QUOTE_UUID\", jsonData.quote_uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sell_currency\": \"IDR\",\r\n  \"buy_currency\": \"SGD\",\r\n  \"fixed_side\": \"buy\",\r\n  \"amount\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/rates",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"rates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ce33a213-e67c-4c1b-9bf0-60ec78721658",
+								"exec": [
+									"var date = new Date();",
+									"var month = +date.getMonth()+1;",
+									"if (date.getMonth()+1 < 10) {",
+									"    month = \"0\" + month;",
+									"}",
+									"",
+									"var day = +date.getDate();",
+									"if (day < 10) {",
+									"    day = \"0\" + day;",
+									"}",
+									"",
+									"var datestring = date.getFullYear()  + \"-\" + month + \"-\" + day;",
+									"",
+									"postman.setGlobalVariable(\"CURRENT_DATE\", datestring);",
+									"",
+									"console.log(\"DATE: \" + datestring);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "d5a146a2-0efb-4e1f-b22e-f548c8efe814",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"CONVERSION_ID\", jsonData.idconversions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"reason\": \"Wallex Conversion - Postman - Fathoni\",\r\n  \"reference_id\": \"ABCDEFG-123456\",\r\n  \"quote_uuid\": \"{{QUOTE_UUID}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Funding - Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da53dbb7-da23-4e43-8c64-0108e5a90b93",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_FUNDING_ID\", jsonData.idfunding);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 1200000,\n  \"funding_method\": \"BANK_TRANSFER\",\n  \"currency\": \"IDR\",\n  \"reference\": \"POSTMAN\",\n  \"bank_account_number\": \"2612630888\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/funding/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"funding",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "-- Login: vito+admin@wallextech.com",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16943b8b-20e5-4080-abbc-32937e294fc7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"vito+admin@wallextech.com\",\r\n  \"password\": \"Wallex$2019\",\r\n  \"action\": \"login_admin\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/users/login",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin transactions - list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92d906ae-ccac-4767-841e-c5756b985850",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_ID\", jsonData.data[0].idtransactions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"related_entity_type\": \"funding\",\n   \"related_entity_id\": \"{{TRANSACTION_FUNDING_ID}}\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/list",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transactions - Accept",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idtransactions\": \"{{TRANSACTION_ID}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/accept",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin transactions - list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92d906ae-ccac-4767-841e-c5756b985850",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_ID\", jsonData.data[0].idtransactions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"related_entity_type\": \"conversion\",\n    \"related_entity_id\": \"{{CONVERSION_ID}}\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/list",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7f15f586-3d9d-4bfc-8e11-d48a6eb306f5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "363fe535-bc42-484b-97d1-484a9b4d869b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Funding Accept 2 - Funding =",
+			"item": [
+				{
+					"name": "-- Login: wallex.test+b1@outlook.com",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16943b8b-20e5-4080-abbc-32937e294fc7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"wallex.test+b1@outlook.com\",\r\n  \"password\": \"Wallex$2019\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/users/login",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Rates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90cb4699-97a6-42c0-99b6-46bede08afe8",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"QUOTE_UUID\", jsonData.quote_uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sell_currency\": \"IDR\",\r\n  \"buy_currency\": \"SGD\",\r\n  \"fixed_side\": \"buy\",\r\n  \"amount\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/rates",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"rates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ce33a213-e67c-4c1b-9bf0-60ec78721658",
+								"exec": [
+									"var date = new Date();",
+									"var month = +date.getMonth()+1;",
+									"if (date.getMonth()+1 < 10) {",
+									"    month = \"0\" + month;",
+									"}",
+									"",
+									"var day = +date.getDate();",
+									"if (day < 10) {",
+									"    day = \"0\" + day;",
+									"}",
+									"",
+									"var datestring = date.getFullYear()  + \"-\" + month + \"-\" + day;",
+									"",
+									"postman.setGlobalVariable(\"CURRENT_DATE\", datestring);",
+									"",
+									"console.log(\"DATE: \" + datestring);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8eaeabd-0357-4ebc-bdd7-e688e8e831d7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"CONVERSION_ID\", jsonData.idconversions);\r",
+									"postman.setEnvironmentVariable(\"CONVERSION_TOTAL_AMOUNT\", jsonData.total_amount);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"reason\": \"Wallex Conversion - Postman - Fathoni\",\r\n  \"reference_id\": \"ABCDEFG-123456\",\r\n  \"quote_uuid\": \"{{QUOTE_UUID}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Funding - Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da53dbb7-da23-4e43-8c64-0108e5a90b93",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_FUNDING_ID\", jsonData.idfunding);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"{{CONVERSION_TOTAL_AMOUNT}}\",\n  \"funding_method\": \"BANK_TRANSFER\",\n  \"currency\": \"IDR\",\n  \"reference\": \"POSTMAN\",\n  \"bank_account_number\": \"2612630888\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/funding/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"funding",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "-- Login: vito+admin@wallextech.com",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16943b8b-20e5-4080-abbc-32937e294fc7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"vito+admin@wallextech.com\",\r\n  \"password\": \"Wallex$2019\",\r\n  \"action\": \"login_admin\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/users/login",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin transactions - list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92d906ae-ccac-4767-841e-c5756b985850",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_ID\", jsonData.data[0].idtransactions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"related_entity_type\": \"funding\",\n   \"related_entity_id\": \"{{TRANSACTION_FUNDING_ID}}\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/list",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transactions - Accept",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idtransactions\": \"{{TRANSACTION_ID}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/accept",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin transactions - list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92d906ae-ccac-4767-841e-c5756b985850",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_ID\", jsonData.data[0].idtransactions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"related_entity_type\": \"conversion\",\n    \"related_entity_id\": \"{{CONVERSION_ID}}\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/list",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "eb26a0e1-9021-4ff6-88f4-82c85da91ba6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c919d1b2-8802-40cc-8438-55a3c223ed72",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Funding Accept 3 - Funding <",
+			"item": [
+				{
+					"name": "-- Login: wallex.test+c1@outlook.com",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16943b8b-20e5-4080-abbc-32937e294fc7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"wallex.test+c1@outlook.com\",\r\n  \"password\": \"Wallex$2019\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/users/login",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Rates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90cb4699-97a6-42c0-99b6-46bede08afe8",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"QUOTE_UUID\", jsonData.quote_uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sell_currency\": \"IDR\",\r\n  \"buy_currency\": \"SGD\",\r\n  \"fixed_side\": \"buy\",\r\n  \"amount\": 100\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/rates",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"rates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ce33a213-e67c-4c1b-9bf0-60ec78721658",
+								"exec": [
+									"var date = new Date();",
+									"var month = +date.getMonth()+1;",
+									"if (date.getMonth()+1 < 10) {",
+									"    month = \"0\" + month;",
+									"}",
+									"",
+									"var day = +date.getDate();",
+									"if (day < 10) {",
+									"    day = \"0\" + day;",
+									"}",
+									"",
+									"var datestring = date.getFullYear()  + \"-\" + month + \"-\" + day;",
+									"",
+									"postman.setGlobalVariable(\"CURRENT_DATE\", datestring);",
+									"",
+									"console.log(\"DATE: \" + datestring);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "b579d557-755f-4534-8753-f412ae02d798",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"CONVERSION_ID\", jsonData.idconversions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"reason\": \"Wallex Conversion - Postman - Fathoni\",\r\n  \"reference_id\": \"ABCDEFG-123456\",\r\n  \"quote_uuid\": \"{{QUOTE_UUID}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Funding - Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da53dbb7-da23-4e43-8c64-0108e5a90b93",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_FUNDING_ID\", jsonData.idfunding);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 100000,\n  \"funding_method\": \"BANK_TRANSFER\",\n  \"currency\": \"IDR\",\n  \"reference\": \"POSTMAN\",\n  \"bank_account_number\": \"2612630888\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/funding/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"funding",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "-- Login: vito+admin@wallextech.com",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16943b8b-20e5-4080-abbc-32937e294fc7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"vito+admin@wallextech.com\",\r\n  \"password\": \"Wallex$2019\",\r\n  \"action\": \"login_admin\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/users/login",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin transactions - list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92d906ae-ccac-4767-841e-c5756b985850",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_ID\", jsonData.data[0].idtransactions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"related_entity_type\": \"funding\",\n   \"related_entity_id\": \"{{TRANSACTION_FUNDING_ID}}\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/list",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transactions - Accept",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idtransactions\": \"{{TRANSACTION_ID}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/accept",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin transactions - list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92d906ae-ccac-4767-841e-c5756b985850",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_ID\", jsonData.data[0].idtransactions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"related_entity_type\": \"conversion\",\n    \"related_entity_id\": \"{{CONVERSION_ID}}\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/list",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7f15f586-3d9d-4bfc-8e11-d48a6eb306f5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "363fe535-bc42-484b-97d1-484a9b4d869b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Funding Accept 4 - 2 Conv - Funding = ",
+			"item": [
+				{
+					"name": "-- Login: wallex.test+d1@outlook.com",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16943b8b-20e5-4080-abbc-32937e294fc7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"wallex.test+d1@outlook.com\",\r\n  \"password\": \"Wallex$2019\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/users/login",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Rates",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90cb4699-97a6-42c0-99b6-46bede08afe8",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"QUOTE_UUID\", jsonData.quote_uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sell_currency\": \"IDR\",\r\n  \"buy_currency\": \"SGD\",\r\n  \"fixed_side\": \"buy\",\r\n  \"amount\": 200\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/rates",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"rates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ce33a213-e67c-4c1b-9bf0-60ec78721658",
+								"exec": [
+									"var date = new Date();",
+									"var month = +date.getMonth()+1;",
+									"if (date.getMonth()+1 < 10) {",
+									"    month = \"0\" + month;",
+									"}",
+									"",
+									"var day = +date.getDate();",
+									"if (day < 10) {",
+									"    day = \"0\" + day;",
+									"}",
+									"",
+									"var datestring = date.getFullYear()  + \"-\" + month + \"-\" + day;",
+									"",
+									"postman.setGlobalVariable(\"CURRENT_DATE\", datestring);",
+									"",
+									"console.log(\"DATE: \" + datestring);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8eaeabd-0357-4ebc-bdd7-e688e8e831d7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"CONVERSION_ID\", jsonData.idconversions);\r",
+									"postman.setEnvironmentVariable(\"CONVERSION_TOTAL_AMOUNT1\", jsonData.total_amount);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"reason\": \"Wallex Conversion - Postman - Fathoni\",\r\n  \"reference_id\": \"ABCDEFG-123456\",\r\n  \"quote_uuid\": \"{{QUOTE_UUID}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Rates 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90cb4699-97a6-42c0-99b6-46bede08afe8",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setGlobalVariable(\"QUOTE_UUID2\", jsonData.quote_uuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sell_currency\": \"IDR\",\r\n  \"buy_currency\": \"SGD\",\r\n  \"fixed_side\": \"buy\",\r\n  \"amount\": 300\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/rates",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"rates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conversions - Create 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ce33a213-e67c-4c1b-9bf0-60ec78721658",
+								"exec": [
+									"var date = new Date();",
+									"var month = +date.getMonth()+1;",
+									"if (date.getMonth()+1 < 10) {",
+									"    month = \"0\" + month;",
+									"}",
+									"",
+									"var day = +date.getDate();",
+									"if (day < 10) {",
+									"    day = \"0\" + day;",
+									"}",
+									"",
+									"var datestring = date.getFullYear()  + \"-\" + month + \"-\" + day;",
+									"",
+									"postman.setGlobalVariable(\"CURRENT_DATE\", datestring);",
+									"",
+									"console.log(\"DATE: \" + datestring);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8eaeabd-0357-4ebc-bdd7-e688e8e831d7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"CONVERSION_ID2\", jsonData.idconversions);\r",
+									"postman.setEnvironmentVariable(\"CONVERSION_TOTAL_AMOUNT2\", jsonData.total_amount);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"reason\": \"Wallex Conversion - Postman - Fathoni\",\r\n  \"reference_id\": \"ABCDEFG-123456\",\r\n  \"quote_uuid\": \"{{QUOTE_UUID2}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/conversions/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"conversions",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Funding - Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da53dbb7-da23-4e43-8c64-0108e5a90b93",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_FUNDING_ID\", jsonData.idfunding);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "452e6f55-b40d-4e6b-806e-d4a986d1e40a",
+								"exec": [
+									"var total_amount1 = Number(postman.getEnvironmentVariable(\"CONVERSION_TOTAL_AMOUNT1\"));",
+									"var total_amount2 = Number(postman.getEnvironmentVariable(\"CONVERSION_TOTAL_AMOUNT2\"));",
+									"",
+									"var total_amounts = total_amount1 + total_amount2;",
+									"",
+									"console.log('total_amount1: ', total_amount1);",
+									"console.log('total_amount2: ', total_amount2);",
+									"console.log('total_amounts: ', total_amounts);",
+									"",
+									"postman.setEnvironmentVariable(\"CONVERSION_TOTAL_AMOUNTS\", total_amounts);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"{{CONVERSION_TOTAL_AMOUNTS}}\",\n  \"funding_method\": \"BANK_TRANSFER\",\n  \"currency\": \"IDR\",\n  \"reference\": \"POSTMAN\",\n  \"bank_account_number\": \"2612630888\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/funding/create",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"funding",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "-- Login: vito+admin@wallextech.com",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16943b8b-20e5-4080-abbc-32937e294fc7",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setGlobalVariable(\"TOKEN\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"vito+admin@wallextech.com\",\r\n  \"password\": \"Wallex$2019\",\r\n  \"action\": \"login_admin\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/api/users/login",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin transactions - list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92d906ae-ccac-4767-841e-c5756b985850",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_ID\", jsonData.data[0].idtransactions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"related_entity_type\": \"funding\",\n   \"related_entity_id\": \"{{TRANSACTION_FUNDING_ID}}\"\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/list",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transactions - Accept",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idtransactions\": \"{{TRANSACTION_ID}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/accept",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin transactions - list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92d906ae-ccac-4767-841e-c5756b985850",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"TRANSACTION_ID\", jsonData.data[0].idtransactions);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"related_entity_type\": \"conversion\",\n    \"related_entity_id\": [\n\t    \t\"{{CONVERSION_ID}}\",\n\t    \t\"{{CONVERSION_ID2}}\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{ADDR}}/admin/api/transactions/list",
+							"host": [
+								"{{ADDR}}"
+							],
+							"path": [
+								"admin",
+								"api",
+								"transactions",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "eb26a0e1-9021-4ff6-88f4-82c85da91ba6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c919d1b2-8802-40cc-8438-55a3c223ed72",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
