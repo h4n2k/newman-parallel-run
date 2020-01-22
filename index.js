@@ -6,8 +6,8 @@ const beautify = require("json-beautify")
 const PARALLEL_RUN_COUNT = 2
 
 const parametersForTestRun = {
-    collection: path.join(__dirname, 'postman/Sequence Funding Accept - Test.postman_collection.json'), // your collection
-    environment: path.join(__dirname, 'postman/Wallex Burhan - Local.postman_environment.json'), //your env
+    collection: path.join(__dirname, 'postman/Sequence-Funding-Accept-Test-0.postman_collection.json'), // your collection
+    environment: path.join(__dirname, 'postman/Wallex-Burhan-Local.postman_environment.json'), //your env
     reporters: 'json', // cli, json, junit, progress and emojitrain
     color: 'off' // on, off and auto
 };
