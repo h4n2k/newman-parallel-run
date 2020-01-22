@@ -1,0 +1,558 @@
+
+> newman_parallel@1.0.0 start /home/han/Works/nodejs/rd/newman-parallel-run2
+> node index.js
+
+>>> request: 
+http://localhost:8080/api/users/login
+>>> response: 
+{
+  "user": {
+    "idusers": 3,
+    "id": "7ad31332-d4ac-49e9-ad13-aba2a23673dd",
+    "id_account": 2,
+    "username": "wallex.test+a1@outlook.com",
+    "customer_ref": "200121-00003",
+    "email": "wallex.test+a1@outlook.com",
+    "status": "3",
+    "status_internal_code": "1100",
+    "first_name": "A1",
+    "last_name": "Account A",
+    "mobile_country_code": "+65",
+    "mobile_telephone": "98465682",
+    "country": "SG",
+    "last_login": "2020-01-21T07:50:57.000",
+    "last_logout": null,
+    "failed_attempts": 0,
+    "last_failed": null,
+    "language": "en",
+    "level": 2,
+    "origin": "wallex",
+    "department": null,
+    "timezone": "Asia/Singapore",
+    "referral_code": null,
+    "follow_up": null,
+    "disabled_at": null,
+    "email_verified_at": null,
+    "account": {
+      "id": "e2b90210-defb-456b-96de-66db5613b324",
+      "id_account": 2,
+      "name": "Account A",
+      "business_type": "A - Agriculture, forestry and fishing",
+      "account_class": "standard",
+      "type": "company",
+      "partner_id": null,
+      "created_at": "2020-01-21T07:25:51.069",
+      "approved_at": null
+    },
+    "approved_at": null,
+    "status_code": "APPROVED",
+    "roles": [ "user" ],
+    "role": "user",
+    "last_active_client": {},
+    "clients": [],
+    "products": [ "web-app" ],
+    "isAdmin": 0,
+    "isDealer": 0,
+    "hasVa": 0,
+    "hasApp": 1,
+    "notification_method": "EMAIL",
+    "company_name": "Blanda and Sons",
+    "partner": null,
+    "current_client": null,
+    "mfa_status": { "login": { "status": "verified" } },
+    "current_login": "2020-01-21 07:51:04",
+    "last_active_time": 1579593065,
+    "screenings": [],
+    "permissions": {},
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3YWxsZXgudGVzdCthMUBvdXRsb29rLmNvbSIsImlhdCI6MTU3OTU5MzA2NX0=.ihxrTQ3tYwbB2O_vkOajivb66OIHR7YK2DFGraC2f2I="
+  },
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3YWxsZXgudGVzdCthMUBvdXRsb29rLmNvbSIsImlhdCI6MTU3OTU5MzA2NX0=.ihxrTQ3tYwbB2O_vkOajivb66OIHR7YK2DFGraC2f2I="
+}
+>>> request: 
+http://localhost:8080/api/conversions/rates
+>>> response: 
+{
+  "settlement_cut_off_time": "2020-01-22T07:51:05.000Z",
+  "currency_pair": "SGDIDR",
+  "client_buy_currency": "SGD",
+  "client_sell_currency": "IDR",
+  "client_buy_amount": 100,
+  "client_sell_amount": 1013700,
+  "fixed_side": "buy",
+  "client_rate": 10137,
+  "mid_market_rate": 10127,
+  "wallex_fee_rate": 0.04444904804182697,
+  "wallex_fee": 45058,
+  "total_amount": 1058758,
+  "wallex_settlement_cut_off_time": "2020-01-22T07:51:05.000Z",
+  "rate_id": "080365e3-be66-4452-9b79-61164e62d2b8",
+  "expires_at": "2020-01-21T07:54:06.153Z",
+  "quote_uuid": "fca74da4-7aed-4e49-a4de-e76156e38a93",
+  "conversion_date": "2020-01-24"
+}
+>>> request: 
+http://localhost:8080/api/conversions/create
+>>> response: 
+{
+  "idconversions": 17,
+  "username": "wallex.test+a1@outlook.com",
+  "short_reference": "-",
+  "settlement_date": "2020-01-22T07:51:05.000Z",
+  "wallex_settlement_date": "2020-01-21T07:51:06.224Z",
+  "conversion_date": "2020-01-21T07:51:06.224Z",
+  "status": "completed",
+  "reference_id": "ABCDEFG-123456",
+  "currency_pair": "SGDIDR",
+  "buy_currency": "SGD",
+  "sell_currency": "IDR",
+  "fixed_side": "buy",
+  "client_buy_amount": 100,
+  "client_sell_amount": 1013700,
+  "total_amount": 1058758,
+  "client_rate": 10137,
+  "mid_market_rate": 0,
+  "market_rate": 0,
+  "market_buy_amount": 0,
+  "market_sell_amount": 0,
+  "wallex_fee_rate": 0.04444904804182697,
+  "idusers": 3,
+  "id_account": 2,
+  "rate_decimal_places": 0
+}
+>>> request: 
+http://localhost:8080/api/funding/create
+>>> response: 
+{
+  "idfunding": 32,
+  "idusers": 3,
+  "id_account": 2,
+  "username": "wallex.test+a1@outlook.com",
+  "currency": "IDR",
+  "amount": 1200000,
+  "transfer_date": null,
+  "completion_date": null,
+  "reference": "POSTMAN",
+  "bank_name": "BANK CENTRAL ASIA",
+  "bank_account_number": "2612630888",
+  "funding_method": "BANK_TRANSFER",
+  "status": "pending",
+  "creation_date": "2020-01-21T07:51:06.407",
+  "payment_incoming_date": null
+}
+>>> request: 
+http://localhost:8080/api/users/login
+>>> response: 
+{
+  "user": {
+    "idusers": 1,
+    "id": "e96e21a3-9770-48ee-a11f-bc0b19801f5b",
+    "id_account": 1,
+    "username": "vito+admin@wallextech.com",
+    "customer_ref": "200121-00001",
+    "email": "vito+admin@wallextech.com",
+    "status": "3",
+    "status_internal_code": "1100",
+    "first_name": "Admin",
+    "last_name": "Wallex",
+    "mobile_country_code": "+65",
+    "mobile_telephone": "98465682",
+    "country": "SG",
+    "last_login": "2020-01-21T07:50:59.000",
+    "last_logout": null,
+    "failed_attempts": 0,
+    "last_failed": null,
+    "language": "en",
+    "level": 2,
+    "origin": "wallex",
+    "department": "directors",
+    "timezone": "Asia/Singapore",
+    "referral_code": null,
+    "follow_up": null,
+    "disabled_at": null,
+    "email_verified_at": null,
+    "account": {
+      "id": "bfbb8270-68e4-4e89-a639-bc6cfeabb1a6",
+      "id_account": 1,
+      "name": "Wallex Technologies Pte Ltd",
+      "business_type": "A - Agriculture, forestry and fishing",
+      "account_class": "standard",
+      "type": "company",
+      "partner_id": null,
+      "created_at": "2020-01-21T07:25:50.651",
+      "approved_at": null
+    },
+    "approved_at": null,
+    "status_code": "APPROVED",
+    "roles": [ "user", "admin" ],
+    "role": "admin",
+    "last_active_client": {},
+    "clients": [],
+    "products": [ "web-app" ],
+    "isAdmin": 0,
+    "isDealer": 0,
+    "hasVa": 0,
+    "hasApp": 1,
+    "notification_method": "EMAIL",
+    "company_name": "Wisozk, Hoppe and Howell",
+    "partner": null,
+    "current_client": null,
+    "mfa_status": { "login": { "status": "verified" } },
+    "current_login": "2020-01-21 07:51:06",
+    "last_active_time": 1579593067,
+    "screenings": [],
+    "permissions": { "settlement": [ "approve", "reject", "view", "list" ] },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aXRvK2FkbWluQHdhbGxleHRlY2guY29tIiwiaWF0IjoxNTc5NTkzMDY3fQ==.7oIxKEK787n1_bjKk-dbbJzTqR8GvVTaoQ06G9eiIFc="
+  },
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aXRvK2FkbWluQHdhbGxleHRlY2guY29tIiwiaWF0IjoxNTc5NTkzMDY3fQ==.7oIxKEK787n1_bjKk-dbbJzTqR8GvVTaoQ06G9eiIFc="
+}
+>>> request: 
+http://localhost:8080/admin/api/transactions/list
+>>> response: 
+{
+  "data": [
+    {
+      "idtransactions": 62,
+      "id": "48ef90c3-e705-4722-8825-9ecbdf658129",
+      "amount": 1200000,
+      "balance": 4871364,
+      "currency": "IDR",
+      "balance_id": "c3df7398-b58c-418e-a1e0-81fe844dade8",
+      "reference": "POSTMAN",
+      "wallex_ref": "200121-FUN-48EF90C3",
+      "status": "pending",
+      "type": "credit",
+      "settle_date": null,
+      "creation_date": "2020-01-21T07:51:06.415",
+      "updated_date": "2020-01-21T07:51:06.425",
+      "completion_date": null,
+      "related_entity_type": "funding",
+      "related_entity_id": 32,
+      "related_entity_reference": "POSTMAN",
+      "username": "wallex.test+a1@outlook.com",
+      "idusers": 3,
+      "id_account": 2,
+      "wallex_fee": 0,
+      "total_amount": 1200000,
+      "owner_name": "A1 Account A"
+    }
+  ],
+  "pagination": {
+    "item_count": 1,
+    "page": 1,
+    "per_page": 10000,
+    "search": [],
+    "total_entries": 1,
+    "total_pages": 1
+  }
+}
+>>> request: 
+http://localhost:8080/admin/api/transactions/accept
+>>> response: 
+{
+  "id": "48ef90c3-e705-4722-8825-9ecbdf658129",
+  "accountId": "e2b90210-defb-456b-96de-66db5613b324",
+  "createdAt": "2020-01-21T07:51:06.415Z",
+  "updatedAt": "2020-01-21T07:51:06.682Z",
+  "createdBy": "7ad31332-d4ac-49e9-ad13-aba2a23673dd",
+  "updatedBy": "e96e21a3-9770-48ee-a11f-bc0b19801f5b",
+  "historyIncluded": true,
+  "transactionIntId": 62,
+  "amount": 1200000,
+  "currencyId": "IDR",
+  "balance": 4871364,
+  "balanceId": "c3df7398-b58c-418e-a1e0-81fe844dade8",
+  "balanceIntId": 8,
+  "ref": "POSTMAN",
+  "wallexRef": "200121-FUN-48EF90C3",
+  "status": "completed",
+  "type": "credit",
+  "completedAt": "2020-01-21T07:51:06.679Z",
+  "domain": "funding",
+  "domainId": "5d88b45c-788c-422a-804e-fe6d10f37c1e",
+  "domainIntId": 32,
+  "domainRef": "POSTMAN",
+  "username": "wallex.test+a1@outlook.com",
+  "userIntId": 3,
+  "accountIntId": 2,
+  "wallexFee": 0,
+  "totalAmount": 1200000,
+  "ownerName": "A1 Account A"
+}
+Sequence Funding Accept - Test ran successfully.
+>>> request: 
+http://localhost:8080/api/users/login
+>>> response: 
+{
+  "user": {
+    "idusers": 3,
+    "id": "7ad31332-d4ac-49e9-ad13-aba2a23673dd",
+    "id_account": 2,
+    "username": "wallex.test+a1@outlook.com",
+    "customer_ref": "200121-00003",
+    "email": "wallex.test+a1@outlook.com",
+    "status": "3",
+    "status_internal_code": "1100",
+    "first_name": "A1",
+    "last_name": "Account A",
+    "mobile_country_code": "+65",
+    "mobile_telephone": "98465682",
+    "country": "SG",
+    "last_login": "2020-01-21T07:50:57.000",
+    "last_logout": null,
+    "failed_attempts": 0,
+    "last_failed": null,
+    "language": "en",
+    "level": 2,
+    "origin": "wallex",
+    "department": null,
+    "timezone": "Asia/Singapore",
+    "referral_code": null,
+    "follow_up": null,
+    "disabled_at": null,
+    "email_verified_at": null,
+    "account": {
+      "id": "e2b90210-defb-456b-96de-66db5613b324",
+      "id_account": 2,
+      "name": "Account A",
+      "business_type": "A - Agriculture, forestry and fishing",
+      "account_class": "standard",
+      "type": "company",
+      "partner_id": null,
+      "created_at": "2020-01-21T07:25:51.069",
+      "approved_at": null
+    },
+    "approved_at": null,
+    "status_code": "APPROVED",
+    "roles": [ "user" ],
+    "role": "user",
+    "last_active_client": {},
+    "clients": [],
+    "products": [ "web-app" ],
+    "isAdmin": 0,
+    "isDealer": 0,
+    "hasVa": 0,
+    "hasApp": 1,
+    "notification_method": "EMAIL",
+    "company_name": "Blanda and Sons",
+    "partner": null,
+    "current_client": null,
+    "mfa_status": { "login": { "status": "verified" } },
+    "current_login": "2020-01-21 07:51:04",
+    "last_active_time": 1579593065,
+    "screenings": [],
+    "permissions": {},
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3YWxsZXgudGVzdCthMUBvdXRsb29rLmNvbSIsImlhdCI6MTU3OTU5MzA2NX0=.ihxrTQ3tYwbB2O_vkOajivb66OIHR7YK2DFGraC2f2I="
+  },
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ3YWxsZXgudGVzdCthMUBvdXRsb29rLmNvbSIsImlhdCI6MTU3OTU5MzA2NX0=.ihxrTQ3tYwbB2O_vkOajivb66OIHR7YK2DFGraC2f2I="
+}
+>>> request: 
+http://localhost:8080/api/conversions/rates
+>>> response: 
+{
+  "settlement_cut_off_time": "2020-01-22T07:51:07.000Z",
+  "currency_pair": "SGDIDR",
+  "client_buy_currency": "SGD",
+  "client_sell_currency": "IDR",
+  "client_buy_amount": 100,
+  "client_sell_amount": 1013700,
+  "fixed_side": "buy",
+  "client_rate": 10137,
+  "mid_market_rate": 10127,
+  "wallex_fee_rate": 0.04444904804182697,
+  "wallex_fee": 45058,
+  "total_amount": 1058758,
+  "wallex_settlement_cut_off_time": "2020-01-22T07:51:07.000Z",
+  "rate_id": "396b330b-1794-43ac-8bf6-a0c6a92b408d",
+  "expires_at": "2020-01-21T07:54:07.998Z",
+  "quote_uuid": "5dbc1ce5-8f42-4a85-b66e-009c3df0b20f",
+  "conversion_date": "2020-01-24"
+}
+>>> request: 
+http://localhost:8080/api/conversions/create
+>>> response: 
+{
+  "idconversions": 18,
+  "username": "wallex.test+a1@outlook.com",
+  "short_reference": "-",
+  "settlement_date": "2020-01-22T07:51:07.000Z",
+  "wallex_settlement_date": "2020-01-21T07:51:08.059Z",
+  "conversion_date": "2020-01-21T07:51:08.059Z",
+  "status": "completed",
+  "reference_id": "ABCDEFG-123456",
+  "currency_pair": "SGDIDR",
+  "buy_currency": "SGD",
+  "sell_currency": "IDR",
+  "fixed_side": "buy",
+  "client_buy_amount": 100,
+  "client_sell_amount": 1013700,
+  "total_amount": 1058758,
+  "client_rate": 10137,
+  "mid_market_rate": 0,
+  "market_rate": 0,
+  "market_buy_amount": 0,
+  "market_sell_amount": 0,
+  "wallex_fee_rate": 0.04444904804182697,
+  "idusers": 3,
+  "id_account": 2,
+  "rate_decimal_places": 0
+}
+>>> request: 
+http://localhost:8080/api/funding/create
+>>> response: 
+{
+  "idfunding": 33,
+  "idusers": 3,
+  "id_account": 2,
+  "username": "wallex.test+a1@outlook.com",
+  "currency": "IDR",
+  "amount": 1200000,
+  "transfer_date": null,
+  "completion_date": null,
+  "reference": "POSTMAN",
+  "bank_name": "BANK CENTRAL ASIA",
+  "bank_account_number": "2612630888",
+  "funding_method": "BANK_TRANSFER",
+  "status": "pending",
+  "creation_date": "2020-01-21T07:51:08.241",
+  "payment_incoming_date": null
+}
+>>> request: 
+http://localhost:8080/api/users/login
+>>> response: 
+{
+  "user": {
+    "idusers": 1,
+    "id": "e96e21a3-9770-48ee-a11f-bc0b19801f5b",
+    "id_account": 1,
+    "username": "vito+admin@wallextech.com",
+    "customer_ref": "200121-00001",
+    "email": "vito+admin@wallextech.com",
+    "status": "3",
+    "status_internal_code": "1100",
+    "first_name": "Admin",
+    "last_name": "Wallex",
+    "mobile_country_code": "+65",
+    "mobile_telephone": "98465682",
+    "country": "SG",
+    "last_login": "2020-01-21T07:51:06.000",
+    "last_logout": null,
+    "failed_attempts": 0,
+    "last_failed": null,
+    "language": "en",
+    "level": 2,
+    "origin": "wallex",
+    "department": "directors",
+    "timezone": "Asia/Singapore",
+    "referral_code": null,
+    "follow_up": null,
+    "disabled_at": null,
+    "email_verified_at": null,
+    "account": {
+      "id": "bfbb8270-68e4-4e89-a639-bc6cfeabb1a6",
+      "id_account": 1,
+      "name": "Wallex Technologies Pte Ltd",
+      "business_type": "A - Agriculture, forestry and fishing",
+      "account_class": "standard",
+      "type": "company",
+      "partner_id": null,
+      "created_at": "2020-01-21T07:25:50.651",
+      "approved_at": null
+    },
+    "approved_at": null,
+    "status_code": "APPROVED",
+    "roles": [ "user", "admin" ],
+    "role": "admin",
+    "last_active_client": {},
+    "clients": [],
+    "products": [ "web-app" ],
+    "isAdmin": 0,
+    "isDealer": 0,
+    "hasVa": 0,
+    "hasApp": 1,
+    "notification_method": "EMAIL",
+    "company_name": "Wisozk, Hoppe and Howell",
+    "partner": null,
+    "current_client": null,
+    "mfa_status": { "login": { "status": "verified" } },
+    "current_login": "2020-01-21 07:51:08",
+    "last_active_time": 1579593068,
+    "screenings": [],
+    "permissions": { "settlement": [ "approve", "reject", "view", "list" ] },
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aXRvK2FkbWluQHdhbGxleHRlY2guY29tIiwiaWF0IjoxNTc5NTkzMDY4fQ==.qinW83Ri9Xf0CwblAhaaJ_XYcuRMTCyE2L3azvAAKAk="
+  },
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aXRvK2FkbWluQHdhbGxleHRlY2guY29tIiwiaWF0IjoxNTc5NTkzMDY4fQ==.qinW83Ri9Xf0CwblAhaaJ_XYcuRMTCyE2L3azvAAKAk="
+}
+>>> request: 
+http://localhost:8080/admin/api/transactions/list
+>>> response: 
+{
+  "data": [
+    {
+      "idtransactions": 65,
+      "id": "bc0d4aac-b094-4e57-81f1-c73d8cb89650",
+      "amount": 1200000,
+      "balance": 5012606,
+      "currency": "IDR",
+      "balance_id": "c3df7398-b58c-418e-a1e0-81fe844dade8",
+      "reference": "POSTMAN",
+      "wallex_ref": "200121-FUN-BC0D4AAC",
+      "status": "pending",
+      "type": "credit",
+      "settle_date": null,
+      "creation_date": "2020-01-21T07:51:08.250",
+      "updated_date": "2020-01-21T07:51:08.258",
+      "completion_date": null,
+      "related_entity_type": "funding",
+      "related_entity_id": 33,
+      "related_entity_reference": "POSTMAN",
+      "username": "wallex.test+a1@outlook.com",
+      "idusers": 3,
+      "id_account": 2,
+      "wallex_fee": 0,
+      "total_amount": 1200000,
+      "owner_name": "A1 Account A"
+    }
+  ],
+  "pagination": {
+    "item_count": 1,
+    "page": 1,
+    "per_page": 10000,
+    "search": [],
+    "total_entries": 1,
+    "total_pages": 1
+  }
+}
+>>> request: 
+http://localhost:8080/admin/api/transactions/accept
+>>> response: 
+{
+  "id": "bc0d4aac-b094-4e57-81f1-c73d8cb89650",
+  "accountId": "e2b90210-defb-456b-96de-66db5613b324",
+  "createdAt": "2020-01-21T07:51:08.250Z",
+  "updatedAt": "2020-01-21T07:51:08.454Z",
+  "createdBy": "7ad31332-d4ac-49e9-ad13-aba2a23673dd",
+  "updatedBy": "e96e21a3-9770-48ee-a11f-bc0b19801f5b",
+  "historyIncluded": true,
+  "transactionIntId": 65,
+  "amount": 1200000,
+  "currencyId": "IDR",
+  "balance": 5012606,
+  "balanceId": "c3df7398-b58c-418e-a1e0-81fe844dade8",
+  "balanceIntId": 8,
+  "ref": "POSTMAN",
+  "wallexRef": "200121-FUN-BC0D4AAC",
+  "status": "completed",
+  "type": "credit",
+  "completedAt": "2020-01-21T07:51:08.450Z",
+  "domain": "funding",
+  "domainId": "2ffc3de4-f010-4764-ad02-55fc1acc419a",
+  "domainIntId": 33,
+  "domainRef": "POSTMAN",
+  "username": "wallex.test+a1@outlook.com",
+  "userIntId": 3,
+  "accountIntId": 2,
+  "wallexFee": 0,
+  "totalAmount": 1200000,
+  "ownerName": "A1 Account A"
+}
+Sequence Funding Accept - Test ran successfully.
