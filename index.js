@@ -1,14 +1,18 @@
 const path = require('path')
 const async = require('async')
 const newman = require('newman')
-const beautify = require("json-beautify")
+const beautify = require('json-beautify')
 
 const PARALLEL_RUN_COUNT = 2
 
 const parametersForTestRun = {
+    // collection: path.join(__dirname, 'postman/Sequence-Funding-Accept-1-Test-case.postman_collection.json'), // your collection
+    // collection: path.join(__dirname, 'postman/Sequence-Funding-Accept-2-Test-case.postman_collection.json'), // your collection
+    // collection: path.join(__dirname, 'postman/Sequence-Funding-Accept-Test-No-Accept .postman_collection.json'), // your collection
     collection: path.join(__dirname, 'postman/Sequence-Funding-Accept-Test.postman_collection.json'), // your collection
     environment: path.join(__dirname, 'postman/Wallex-Burhan-Local.postman_environment.json'), //your env
-    reporters: 'json', // cli, json, junit, progress and emojitrain
+    // reporters: 'json', // cli, json, junit, progress and emojitrain
+    reporters: 'cli', // cli, json, junit, progress and emojitrain
     color: 'off' // on, off and auto
 };
 
