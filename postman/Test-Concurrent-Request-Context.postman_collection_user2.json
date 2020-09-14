@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "a5fcb3b3-9ca4-4b95-80ef-2f917be191f1",
+		"name": "Test Concurrent: Request Context",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login Auth0 User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65d84088-19c5-43fd-bff2-781c2c53cbf7",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"token_user2\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "OTCcQzZu3DXf1NRwuRjNaa06dmuaDLWq",
+							"type": "text"
+						},
+						{
+							"key": "audience",
+							"value": "https://b2b2x.wallex.asia/app",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "mustofa@wallextech.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "plokiju12345",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid email phone",
+							"type": "text"
+						}
+					],
+					"options": {
+						"urlencoded": {}
+					}
+				},
+				"url": {
+					"raw": "https://{{auth0_domain}}/oauth/token",
+					"protocol": "https",
+					"host": [
+						"{{auth0_domain}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user2}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"imageUrl\": \"https://wallex-b2b2x-dev.s3.ap-southeast-1.amazonaws.com/1598498839097-post_poster1.png\",\n    \"title\": \"Zero Fee Promo Transfer to User number 2\",\n    \"description\": \"User number 2\",\n    \"status\": true,\n    \"startDate\": \"2020-08-24 19:26:48.461176\",\n    \"endDate\": \"2020-12-12 19:26:48.461176\",\n    \"priority\": 1,\n    \"action\": {\n        \"type\": \"OPEN_BROWSER\",\n        \"link\": \"https://wallex.asia\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}{{PORT}}/v1/post/create-post",
+					"host": [
+						"{{HOST}}{{PORT}}"
+					],
+					"path": [
+						"v1",
+						"post",
+						"create-post"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
